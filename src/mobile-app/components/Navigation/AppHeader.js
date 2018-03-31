@@ -1,5 +1,5 @@
 import React from "react";
-import { app } from "../app";
+import { app } from "../../../components/app";
 import { NavBar, Icon } from 'antd-mobile';
 import { DrawerNavigator } from './Drawer';
 import './AppHeaderStyle.css';

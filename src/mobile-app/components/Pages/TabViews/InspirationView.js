@@ -1,6 +1,6 @@
 import React from 'react';
 import { Carousel} from 'antd-mobile';
-import { getInspirations } from '../../../userApi';
+import { getInspirations } from '../../../../userApi';
 
 const PlaceHolder = ({ className = '', ...restProps }) => (
     <div className={`${className} placeholder`} {...restProps}>Block</div>

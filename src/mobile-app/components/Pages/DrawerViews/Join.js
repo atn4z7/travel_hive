@@ -1,33 +1,28 @@
 import React from 'react';
 import { List, InputItem, Button, Toast } from 'antd-mobile';
 import { createForm } from 'rc-form';
-import { loginUser } from '../../../userApi.js';
+import { addUser } from '../../../../userApi.js';
 import { connect } from 'dva';
 
 const Item = List.Item;
 
-class LoginForm extends React.Component {
+class JoinForm extends React.Component {
   state = {
     value: 1,
   }
   onSubmit = () => {
     this.props.form.validateFields({ force: true }, (error,values) => {
-      if (!error) {        
-        const { email, password } = values;
-        loginUser(email, password).then(user => {
-            if(user){
-              const firstname = user.user.split(" ")[0];
-              console.log("USER",user);
-              Toast.success("Welcome back, " + firstname);
-              let base64image = undefined;           
-              base64image = user.profileImage;            
-              this.props.dispatch({type:'user/logInUser'});   // antd dva operation to change isLoggedIn state to true
-              this.props.dispatch({type:'user/updateProfileImage', payload:base64image})
-              this.props.dispatch({type: 'user/updateBioText', payload: user.bioText})
-              this.props.changeDrawerView("Home");
-            } else {
-              Toast.fail("Incorrect email or password!");
-            }
+      if (!error) { 
+        console.log('Received values of form: ', values);       
+        const { username, email, password } = values;
+        addUser(username, email, password).then(user => {
+          if(user){
+            Toast.success("Thanks for signing up! Get ready for an adventure!");
+            this.props.dispatch({type:'user/logInUser'});   // antd dva operation to change isLoggedIn state to yes
+            this.props.changeDrawerView("Profile");
+          } else {
+            Toast.fail("Signup process failed. Please try again!");
+          }
           });
         
       } 
@@ -49,9 +44,12 @@ class LoginForm extends React.Component {
 
     return (<form>
       <List
-        renderHeader={() => 'Login'}
+        renderHeader={() => 'Join'}
         renderFooter={() => getFieldError('account') && getFieldError('account').join(',')}
       >
+        <InputItem {...getFieldProps('username',{rules: [{ required: true, message: 'Your username is required.' }],})} placeholder="please input username" type="text">
+          Username
+        </InputItem> 
         <InputItem
           {...getFieldProps('email', {
             // initialValue: 'little ant',
@@ -71,7 +69,10 @@ class LoginForm extends React.Component {
         >Email</InputItem>
         <InputItem {...getFieldProps('password',{rules: [{ required: true, message: 'Please input your Password!' }],})} placeholder="please input password" type="password">
           Password
-        </InputItem>    
+        </InputItem>
+        <InputItem {...getFieldProps('confirmPassword',{rules: [{ required: true, message: 'Please confirm your Password!' }],})} placeholder="please confirm password" type="password">
+          Confirm
+        </InputItem>     
         
         <Item>
           <Button type="primary" size="small" inline onClick={this.onSubmit}>Submit</Button>
@@ -82,4 +83,4 @@ class LoginForm extends React.Component {
   }
 }
 
-export const WrappedLoginForm = createForm()(connect()(LoginForm));
+export const WrappedJoinForm = createForm()(connect()(JoinForm));

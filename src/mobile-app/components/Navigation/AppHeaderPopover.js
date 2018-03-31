@@ -1,8 +1,8 @@
 import React from 'react';
 import { Popover } from 'antd-mobile';
-import {logoutUser} from '../../userApi';
-import { saveState } from "../../models/localStorage";
-import { app } from "../app";
+import {logoutUser} from '../../../userApi';
+import { saveState } from "../../../models/localStorage";
+import { app } from "../../../components/app";
 
 const Item = Popover.Item;
 const myImg = src => <img src={`https://gw.alipayobjects.com/zos/rmsportal/${src}.svg`} className="am-icon am-icon-xs" alt="" />;
