@@ -25,6 +25,3 @@ export const menu = (
     <Menu.Divider />
   </Menu>
 );
-
-
-
