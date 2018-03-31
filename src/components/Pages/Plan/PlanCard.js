@@ -1,42 +1,33 @@
 import React from 'react';
 
-import { Card, Col, Form, Input, Icon, Button } from 'antd';
-import Modal from 'react-modal';
+import { Card, Col, Form, Input, Icon, Button, Modal } from 'antd';
 
-const FormItem = Form.Item;
-
-const modalStyle = {
-  content : {
-    top: '40%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    border: '1px solid black',
-    width: '50%'
-  }
-};
-
-Modal.setAppElement('#root')
+const { TextArea } = Input;
 
 class PlanCard extends React.Component {
 
   constructor() {
     super();
 
-    this.state = { modalIsOpen: false };
-
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this.state = { visible: false };
   }
 
-  openModal() {
-    this.setState({ modalIsOpen: true });
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
   }
 
-  closeModal() {
-    this.setState({ modalIsOpen: false });
+  handleOk = (e) => {
+    this.setState({
+      visible: false,
+    });
+  }
+
+  handleCancel = (e) => {
+    this.setState({
+      visible: false,
+    });
   }
 
   render() {
@@ -45,28 +36,21 @@ class PlanCard extends React.Component {
         <Col span={8}>
           <Card
             hoverable
-            onClick = {this.openModal}
+            onClick = {this.showModal}
             style = {{ margin: '5px' }}
             title= "New Trip"
           />
         </Col>
         <Modal
-          isOpen = {this.state.modalIsOpen}
-          onRequestClose = {this.closeModal}
-          style = {modalStyle}
-          >
-          <h2> Start a new trip! </h2>
-          <Form layout="vertical">
-            <FormItem>
-              <Input placeholder="Name Your Trip!" />
-            </FormItem>
-            <FormItem>
-              <Input placeholder="Day 1" />
-            </FormItem>
-          </Form>
-          <Button onClick = {this.closeModal}> Close </Button>
-          <Button icon="plus"> Add Day </Button>
+          title="Update my itinerary"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel} >
+          <Button icon="plus"> Add Bookmark </Button>
           <Button icon="calendar"> Calendar </Button>
+          <Form layout="vertical">
+            <TextArea placeholder = "Title" rows={4} />
+          </Form>
         </Modal>
       </div>
     )
