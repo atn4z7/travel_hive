@@ -14,6 +14,6 @@ function isMobileDevice() {
     return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
 };
 
-true ?  app.router(() => <AppMobile />) :  app.router(() => <App />);
+isMobileDevice() ?  app.router(() => <AppMobile />) :  app.router(() => <App />);
 
 app.start('#root');
