@@ -13,16 +13,20 @@ export class AppHeaderPopover extends React.Component {
     visible: false,
     selected: '',
   };
-  onSelect = (opt) => {
-    // console.log(opt.props.value);
-    logoutUser();
-    app._store.dispatch({ type: "user/logOutUser" }); // alternate way to connect to the app store/state dispatcher
-    saveState(undefined);
-    this.setState({
-      visible: false,
-      selected: opt.props.value,
-    });
-    window.location.reload();
+  onSelect = (opt) => {    
+    if(opt.props.value === "logout"){
+      console.log("opt props",opt.props.value);
+      logoutUser();
+      app._store.dispatch({ type: "user/logOutUser" }); // alternate way to connect to the app store/state dispatcher
+      saveState(undefined);
+      this.setState({
+        visible: false,
+        selected: opt.props.value,
+      });
+     // window.location.reload();
+    }  else {
+      alert("Comming soon !");
+    }
   };
   handleVisibleChange = (visible) => {
     this.setState({
@@ -37,9 +41,9 @@ export class AppHeaderPopover extends React.Component {
             overlayStyle={{ color: 'currentColor' }}
             visible={this.state.visible}
             overlay={[
-              (<Item key="4" value="scan" icon={myImg('tOtXhkIWzwotgGSeptou')} data-seed="logId">Profile</Item>),
-              (<Item key="5" value="special" icon={myImg('PKAgAqZWJVNwKsAJSmXd')} style={{ whiteSpace: 'nowrap' }}>Logout</Item>),
-              (<Item key="6" value="button ct" icon={myImg('uQIYTFeRrjPELImDRrPt')}>
+              (<Item key="4" value="profile" icon={myImg('tOtXhkIWzwotgGSeptou')} data-seed="logId">Profile</Item>),
+              (<Item key="5" value="logout" icon={myImg('PKAgAqZWJVNwKsAJSmXd')} style={{ whiteSpace: 'nowrap' }}>Logout</Item>),
+              (<Item key="6" value="help" icon={myImg('uQIYTFeRrjPELImDRrPt')}>
                 <span style={{ marginRight: 5 }}>Help</span>
               </Item>),
             ]}
