@@ -92,11 +92,11 @@ export const CustomMap = compose(
     >
       <input
         type="text"
-        placeholder="Customized your placeholder"
+        placeholder="Let's search for your next adventure!"
         style={{
           boxSizing: `border-box`,
           border: `1px solid transparent`,
-          width: `240px`,
+          width: `270px`,
           height: `32px`,
           marginTop: `27px`,
           padding: `0 12px`,

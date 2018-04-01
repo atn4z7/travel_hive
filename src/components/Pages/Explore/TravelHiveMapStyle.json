@@ -49,7 +49,7 @@
       "elementType": "all",
       "stylers": [
         {
-          "color": "#08304b"
+          "color": "#41A7AB"
         }
       ]
     },
@@ -70,7 +70,7 @@
       "elementType": "geometry.fill",
       "stylers": [
         {
-          "color": "#000000"
+          "color": "#EEC53E"
         }
       ]
     },
@@ -79,7 +79,7 @@
       "elementType": "geometry.stroke",
       "stylers": [
         {
-          "color": "#0b434f"
+          "color": "#FEC708"
         },
         {
           "lightness": 25
@@ -91,7 +91,7 @@
       "elementType": "geometry.fill",
       "stylers": [
         {
-          "color": "#000000"
+          "color": "#FEC708"
         }
       ]
     },
