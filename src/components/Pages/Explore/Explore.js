@@ -1,6 +1,7 @@
 import React from 'react';
 import {Dropdown, Button, Menu, Icon, message} from 'antd';
 import {CountryDropdown, RegionDropdown} from 'react-country-region-selector';
+import {CustomMap} from './GoogleMap';
 
 class CountrySearch extends React.Component {
   constructor (props) {
@@ -39,6 +40,7 @@ export const Explore = () => (
     <div>Explore</div>
 
     <CountrySearch />
+    <CustomMap />
 
 
 </div>
