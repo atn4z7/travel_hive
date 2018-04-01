@@ -39,34 +39,50 @@ export const CustomMap = compose(
         markers: [],
         onMapMounted: ref => {
           refs.map = ref;
-          
-        },                      
-        
+        },
+        onBoundsChanged: () => {
+          this.setState({
+            bounds: refs.map.getBounds(),
+            center: refs.map.getCenter(),
+          })
+        },
         onSearchBoxMounted: ref => {
           refs.searchBox = ref;
-        }
-       
+        },
+        onPlacesChanged: () => {
+          const places = refs.searchBox.getPlaces();
+          const bounds = new window.google.maps.LatLngBounds();
+
+          places.forEach(place => {
+            if (place.geometry.viewport) {
+              bounds.union(place.geometry.viewport)
+            } else {
+              bounds.extend(place.geometry.location)
+            }
+          });
+          const nextMarkers = places.map(place => ({
+            position: place.geometry.location,
+          }));
+          const nextCenter = _.get(nextMarkers, '0.position', this.state.center);
+
+          this.setState({
+            center: nextCenter,
+            markers: nextMarkers,
+          });
+         
+        },
       })
     },
-    componentDidMount(){
-      onBoundsChanged: (refs) => {
-        
-        this.setState({
-         
-          bounds: refs.map.getBounds(),
-          center: refs.map.getCenter(),
-        })
-      } 
-    }
   }),
   withScriptjs,
   withGoogleMap
 )(props =>
   <GoogleMap
+    ref={props.onMapMounted}
     defaultZoom={15}
-    defaultCenter={props.center}
-    defaultOptions={{ styles: demoFancyMapStyles }}
+    center={props.center}
     onBoundsChanged={props.onBoundsChanged}
+    defaultOptions={{ styles: demoFancyMapStyles }}
   >
     <SearchBox
       ref={props.onSearchBoxMounted}
@@ -74,7 +90,7 @@ export const CustomMap = compose(
       controlPosition={window.google.maps.ControlPosition.TOP_LEFT}
       onPlacesChanged={props.onPlacesChanged}
     >
-    <input
+      <input
         type="text"
         placeholder="Customized your placeholder"
         style={{
@@ -91,9 +107,11 @@ export const CustomMap = compose(
           textOverflow: `ellipses`,
         }}
       />
-     </SearchBox> 
-    
-    
+    </SearchBox>
+    {props.markers.map((marker, index) =>
+      <Marker key={index} position={marker.position} />
+    )}
   </GoogleMap>
 );
+
 <CustomMap />
