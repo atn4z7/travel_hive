@@ -12,7 +12,7 @@ import { InspirationPage } from "./components/Pages/Inspiration";
 import Plan from "./components/Pages/Plan/Plan";
 import { Experience } from "./components/Pages/Experience";
 import { Connect } from "./components/Pages/Connect";
-import { Explore } from "./components/Pages/Explore";
+import { Explore } from "./components/Pages/Explore/Explore";
 
 import user from "./models/user";
 import inspiration from "./models/inspiration";
