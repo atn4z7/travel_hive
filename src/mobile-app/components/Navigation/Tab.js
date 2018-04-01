@@ -1,17 +1,12 @@
 import React from 'react';
 import { Tabs, Badge } from 'antd-mobile';
 import { InspirationView } from '../Pages/TabViews/InspirationView';
-
-
-const tabs = [
-  { title: <Badge text={'3'}>First Tab</Badge> },
-  { title: <Badge text={'今日(20)'}>Second Tab</Badge> },
-  { title: <Badge dot>Third Tab</Badge> },
-];
+import { Explore } from '../../../components/Pages/Explore/Explore';
 
 const tabs2 = [
   { title: 'Inspiration', sub: '1' },
   { title: 'Plan', sub: '2' },
+  { title: 'Explore', sub: '3'}
   
 ];
 
@@ -24,10 +19,10 @@ export const TabNavigator = () => (
         <InspirationView />
       </div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
-        Content of second tab
+        Planning here soon!
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
-        Content of third tab
+      <div style={{ }}>
+        <Explore />
       </div>
     </Tabs>
     
