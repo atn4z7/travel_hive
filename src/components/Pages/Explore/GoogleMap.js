@@ -1,15 +1,16 @@
 import React from "react"
 
-import { Marker } from "react-google-maps"
-
-const { compose, withProps, withStateHandlers } = require("recompose");
+const _ = require("lodash");
+const { compose, withProps, withStateHandlers, lifecycle } = require("recompose");
 const {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
+  Marker,
 } = require("react-google-maps");
 const { InfoBox } = require("react-google-maps/lib/components/addons/InfoBox");
 const demoFancyMapStyles = require("./TravelHiveMapStyle.json");
+const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
 
 export const CustomMap = compose(
   withProps({
@@ -26,40 +27,73 @@ export const CustomMap = compose(
       isOpen: !isOpen,
     })
   }),
+  lifecycle({
+    componentWillMount() {
+      const refs = {}
+
+      this.setState({
+        bounds: null,
+        center: {
+          lat: 41.9, lng: -87.624
+        },
+        markers: [],
+        onMapMounted: ref => {
+          refs.map = ref;
+          
+        },                      
+        
+        onSearchBoxMounted: ref => {
+          refs.searchBox = ref;
+        }
+       
+      })
+    },
+    componentDidMount(){
+      onBoundsChanged: (refs) => {
+        
+        this.setState({
+         
+          bounds: refs.map.getBounds(),
+          center: refs.map.getCenter(),
+        })
+      } 
+    }
+  }),
   withScriptjs,
   withGoogleMap
 )(props =>
   <GoogleMap
-    defaultZoom={5}
+    defaultZoom={15}
     defaultCenter={props.center}
     defaultOptions={{ styles: demoFancyMapStyles }}
+    onBoundsChanged={props.onBoundsChanged}
   >
-    <InfoBox
-      //defaultPosition={new google.maps.LatLng(props.center.lat, props.center.lng)}
-      options={{ closeBoxURL: ``, enableEventPropagation: true }}
+    <SearchBox
+      ref={props.onSearchBoxMounted}
+      bounds={props.bounds}
+      controlPosition={window.google.maps.ControlPosition.TOP_LEFT}
+      onPlacesChanged={props.onPlacesChanged}
     >
-      <div style={{ backgroundColor: `yellow`, opacity: 0.75, padding: `12px` }}>
-        <div style={{ fontSize: `16px`, fontColor: `#08233B` }}>
-          Hello, Taipei!
-        </div>
-      </div>
-    </InfoBox>
-    <Marker
-      position={{ lat: 22.6273, lng: 120.3014 }}
-      onClick={props.onToggleOpen}
-    >
-      {props.isOpen && <InfoBox
-        onCloseClick={props.onToggleOpen}
-        options={{ closeBoxURL: ``, enableEventPropagation: true }}
-      >
-        <div style={{ backgroundColor: `yellow`, opacity: 0.75, padding: `12px` }}>
-          <div style={{ fontSize: `16px`, fontColor: `#08233B` }}>
-            Hello, Kaohsiung!
-          </div>
-        </div>
-      </InfoBox>}
-    </Marker>
+    <input
+        type="text"
+        placeholder="Customized your placeholder"
+        style={{
+          boxSizing: `border-box`,
+          border: `1px solid transparent`,
+          width: `240px`,
+          height: `32px`,
+          marginTop: `27px`,
+          padding: `0 12px`,
+          borderRadius: `3px`,
+          boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+          fontSize: `14px`,
+          outline: `none`,
+          textOverflow: `ellipses`,
+        }}
+      />
+     </SearchBox> 
+    
+    
   </GoogleMap>
 );
-
 <CustomMap />

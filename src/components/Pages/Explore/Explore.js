@@ -39,8 +39,11 @@ export const Explore = () => (
 <div>
     <div>Explore</div>
 
-    <CountrySearch />
-    <CustomMap />
+    <CountrySearch />    
+    <CustomMap >
+      onMapIdle={() => {console.log('map is ready')}}
+    </CustomMap>  
+
 
 
 </div>
