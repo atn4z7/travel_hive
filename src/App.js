@@ -10,7 +10,7 @@ import { WrappedLoginForm } from "./components/Pages/Login";
 import { ProfilePage } from "./components/Pages/Profile/Profile";
 import { InspirationPage } from "./components/Pages/Inspiration";
 import Plan from "./components/Pages/Plan/Plan";
-import { Experience } from "./components/Pages/Experience";
+import { Experience } from "./components/Pages/Experience/Experience";
 import { Connect } from "./components/Pages/Connect";
 import { Explore } from "./components/Pages/Explore/Explore";
 
