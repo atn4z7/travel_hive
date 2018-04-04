@@ -11,6 +11,13 @@ export const addParticipantsMessage = (data) => {
   return `${data.numUsers} connected`;
 }
 
+export const sendMessage = (socket,message) => {
+
+  /* Need to check if connected first before sending message */
+  socket.emit("new message", message);
+}
+
+
 
 
 

@@ -6,10 +6,11 @@ export const getSocketEvents = (socket) => {
     });
 
     socket.on('new message', (data) => {
-            
+            console.log(data);
     });
 
     socket.on('user joined', (data) =>{
+        console.log("New user joined");
   
     });
 

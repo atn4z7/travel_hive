@@ -12,6 +12,8 @@ export class Chat extends Component {
   constructor() {
     super();
     this.state = {
+      socket: null,
+      connected: false,
       messages: [
         new Message({
           id: 1,
@@ -26,10 +28,17 @@ export class Chat extends Component {
  
  
   render() {
-    const {username, profileImage} = [app._store.getState().user, app._store.getState().profileImage];
-    const socket = connect();
-    getSocketEvents(socket);
-    setUserAttributes(socket,username, profileImage)
+    const {username, profileImage} = [app._store.getState().user, app._store.getState().profileImage];    
+    const connectToSocket = () => {      
+      if(this.state.connected === true) return
+      this.setState({socket: connect()}, () => {
+        this.setState({connected: true});
+        console.log("Client socket added");
+        getSocketEvents(this.state.socket);
+        setUserAttributes(this.state.socket,username, profileImage) 
+      });       
+    }
+    
     return (<div>
 
       <ChatFeed
@@ -51,8 +60,11 @@ export class Chat extends Component {
         }
       }
     />
+
+    <Button onClick = {connectToSocket}/>      
+    </div>
+
       
-      
-    </div>)
-  }
+
+    )}
 }
