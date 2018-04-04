@@ -1,15 +1,20 @@
 import React from 'react';
 
+import Plan from "./PlanCard"
+
 import { Card, Col, Form, Input, Icon, Button, Modal } from 'antd';
 
 const { TextArea } = Input;
+const { Meta } = Card;
 
 class PlanCard extends React.Component {
 
   constructor() {
     super();
 
-    this.state = { visible: false };
+    this.state = {
+      visible: false
+    };
   }
 
   showModal = () => {
@@ -37,12 +42,17 @@ class PlanCard extends React.Component {
           <Card
             hoverable
             onClick = {this.showModal}
-            style = {{ margin: '5px' }}
-            title= "New Trip"
+            style = {{ margin: '5px'}}
+            title = {this.props.title}
+            cover = {<img src= {this.props.picture} height = '200px' />}
+          >
+          <Meta
+            description = {this.props.description}
           />
+          </Card>
         </Col>
         <Modal
-          title="Update my itinerary"
+          title= {this.props.title}
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel} >
