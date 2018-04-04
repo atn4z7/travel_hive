@@ -1,85 +1,58 @@
-import React from "react";
-import {Avatar, Button} from  'antd';
-import {setUserAttributes} from './Socket.js';
+import {Avatar, Button} from  'antd'
 import {app} from '../../../../app.js' /* Contains dva app from antd which has state management components*/
-const io = require('socket.io-client')
+import React, {Component} from 'react'
+import { ChatFeed, Message } from 'react-chat-ui'
+import { connect } from './SocketConnect'
+import { getSocketEvents } from './SocketEvents'
+import { setUserAttributes } from './SocketActions'
 
+ 
+export class Chat extends Component {
+ 
+  constructor() {
+    super();
+    this.state = {
+      messages: [
+        new Message({
+          id: 1,
+          message: "I'm the recipient! (The person you're talking to)",
+        }), // Gray bubble
+        new Message({ id: 0, message: "I'm you -- the blue bubble!" }),
+         
+      ],
+      //...
+    };
+  }
+ 
+ 
+  render() {
+    const {username, profileImage} = [app._store.getState().user, app._store.getState().profileImage];
+    const socket = connect();
+    getSocketEvents(socket);
+    setUserAttributes(socket,username, profileImage)
+    return (<div>
 
-/* Clientside code for socket.io chat room 
-   Converted chat example at https://github.com/socketio/socket.io/blob/master/examples/chat 
-   into a more component react version.
-*/
-
-const COLORS = [
-  '#e21400', '#91580f', '#f8a700', '#f78b00',
-  '#58dc00', '#287b00', '#a8f07a', '#4ae8c4',
-  '#3b88eb', '#3824aa', '#a700ff', '#d300e7'
-
-];
-
-
-
-const socket = io(process.env.REACT_APP_CHAT_SERVER_URL || "http://localhost:80");
-
-//let username = app._store.getState().username;
-//let profileImage = app._store.getState().profileImage
-console.log(app);
-
-
-
-socket.on('add user', (data) => {
-    console.log("Server sent message",data);
-    return {username: data.username, profileImage: data.profileImage};        
-});
-
-
-
-
-const MyMessage = ()=>{
-  <div>
-    My Message
-  </div>  
-  
-}
-
-const OthersProfileAvatar = (profileImage) => {
-  <div>    
-    <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-            src={profileImage} 
+      <ChatFeed
+      messages={this.state.messages} // Boolean: list of message objects
+      isTyping={this.state.is_typing} // Boolean: is the recipient typing
+      hasInputField={false} // Boolean: use our input, or use your own
+      showSenderName // show the name of the user who sent the message
+      bubblesCentered={false} //Boolean should the bubbles be centered in the feed?
+      // JSON: Custom bubble styles
+      bubbleStyles={
+        {
+          text: {
+            fontSize: 30
+          },
+          chatbubble: {
+            borderRadius: 70,
+            padding: 40
+          }
+        }
+      }
     />
-    
-  </div>
-}
-
-const OthersMessage = () => {
-  <div style={{display:"inline"}}>
-    <OthersProfileAvatar />
-    <div>Others Message</div>
-  </div>
-  
-}
-
-export class Chat extends React.Component {
-  constructor(props){
-    super(props);    
-    this.state = {hidden: "false"}
-  }
-  
-  addUser = () => {
-    this.setState({hidden: "true"});
-    // Tell the server your username
-    socket.emit('add user', ("darth", "dude"));    
-  }
-  
-
-  render() { 
-    const user = app._store.getState(); 
-    
-    
-    return (
-      <div>
-        <Button visible={this.state.hidden} onClick={this.addUser}/>
-      </div>
-    );
+      
+      
+    </div>)
   }
 }
