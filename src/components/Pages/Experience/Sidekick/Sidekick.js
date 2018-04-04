@@ -1,6 +1,6 @@
 import React from "react";
 import { Icon,Tabs, Radio } from 'antd';
-import {Chat} from './Chat';
+import {Chat} from './Chat/Chat';
 import {Camera} from './Camera';
 import {Checklist} from './Checklist';
 import {Expenses} from './Expenses';

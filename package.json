@@ -26,11 +26,13 @@
     "react-scripts": "1.0.17",
     "sequelize": "^4.28.6",
     "sequelize-cli": "^3.2.0",
+    "socket.io": "^2.1.0",
     "winston": "^2.4.0"
   },
   "scripts": {
     "start": "cross-env react-scripts start",
     "server": "cross-env NODE_ENV=development nodemon --exec babel-node ./server/server.js",
+    "chat:server": "cross-env NODE_ENV=development nodemon --exec babel-node ./server/sideKickChatServer.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",

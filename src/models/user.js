@@ -4,6 +4,7 @@ export default {
     isLoggedIn: false,
     bioText: 'Bio Goes here',
     profileImage: 'https://robohash.org/User',
+    username: "",
   },
   reducers: {
     logInUser(state) {
@@ -17,6 +18,9 @@ export default {
     },
     updateBioText(state, { payload: bioText }) {
       return { ...state, bioText: bioText };
+    },
+    updateUserName(state, {payload: username}) {
+      return { ...state, username: username};
     },
   },
 };
