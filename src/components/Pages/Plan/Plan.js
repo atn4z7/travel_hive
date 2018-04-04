@@ -5,27 +5,46 @@ import { Button, Row, Col, Modal, Form, Input } from 'antd';
 import PlanCard from "./PlanCard";
 
 const { TextArea } = Input;
+const FormItem = Form.Item;
 
 class Plan extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      numTrips: 0,
-      visible: false
+      title: '',
+      description: '',
+      picture: '',
+      visible: false,
+      data: []
     }
+    this.handleTitle = this.handleTitle.bind(this);
+    this.handleDescription = this.handleDescription.bind(this);
+    this.handlePicture = this.handlePicture.bind(this);
     this.onAddTrip = this.onAddTrip.bind(this);
+  }
+
+  handleTitle(e) {
+    this.setState({
+      title: e.target.value
+    });
+  }
+
+  handlePicture(e) {
+    this.setState({
+      picture: e.target.value
+    });
+  }
+
+  handleDescription(e) {
+    this.setState({
+      description: e.target.value
+    });
   }
 
   showModal = () => {
     this.setState({
       visible: true,
-    });
-  }
-
-  handleOk = (e) => {
-    this.setState({
-      visible: false,
     });
   }
 
@@ -35,26 +54,18 @@ class Plan extends React.Component {
     });
   }
 
-  onAddTrip = () => {
+  onAddTrip = (e) => {
+    e.preventDefault();
+
+    let tripInfo = {title: this.state.title, description: this.state.description, picture: this.state.picture}
+
     this.setState({
-      numTrips: this.state.numTrips + 1,
-      visible: false
+      visible: false,
+      data: this.state.data.concat(tripInfo)
     });
   }
 
   render() {
-
-    const children = [];
-
-    for (var i = 0; i < this.state.numTrips; i += 1) {
-      children.push(<PlanCard key={i} number={i} />);
-    };
-
-    const ParentComponent = props => (
-      <div>
-        {props.children}
-      </div>
-    );
 
     return (
       <Row gutter={24}>
@@ -66,13 +77,23 @@ class Plan extends React.Component {
           onOk={this.onAddTrip}
           onCancel={this.handleCancel}>
           <Form>
-            <Input placeholder="Add a title" />
-            <TextArea placeholder = "Write a brief description about your trip" rows={4} />
+            <Input
+              type = "text" placeholder="Add a title" value={this.state.title} onChange={this.handleTitle}
+            />
+            <Input
+              type = "text" placeholder="Add picture URL" value={this.state.picture} onChange={this.handlePicture}
+            />
+            <TextArea
+              placeholder = "Write a brief description about your trip" value={this.state.description} onChange={this.handleDescription}
+              rows={4}
+            />
           </Form>
         </Modal>
-        <ParentComponent>
-          {children}
-        </ParentComponent>
+        {this.state.data.map((x, i) =>
+        <div key={i}>
+          <PlanCard title = {x.title} description = {x.description} picture = {x.picture} />
+        </div>
+        )}
       </Row>
     );
   }
