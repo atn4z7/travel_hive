@@ -68,9 +68,9 @@ export class Chat extends React.Component {
   addUser = () => {
     this.setState({hidden: "true"});
     // Tell the server your username
-    socket.emit('add user', ("darth", "dude"));
-    
+    socket.emit('add user', ("darth", "dude"));    
   }
+  
 
   render() { 
     const user = app._store.getState(); 

@@ -18,7 +18,7 @@ export class Sidekick extends React.Component {
     const changeComponent = (e)=>{
       const componentName = e.target.value;
       switch(componentName){
-        case "message":
+        case "chat":
           return this.setState({componentSelected: <Chat />});
           break;
         case "camera":
@@ -33,13 +33,13 @@ export class Sidekick extends React.Component {
       }
     }  
     return (
-      <div>
-        <Radio.Group onChange={changeComponent} defaultValue="chat" style={{}}>
-          <Radio.Button value="chat"><Icon className="custom-icon" type="message"/></Radio.Button>
-          <Radio.Button value="camera"><Icon className="custom-icon" type="camera" /></Radio.Button>
-          <Radio.Button value="checklist"><Icon className="custom-icon" type="schedule" /></Radio.Button>
-          <Radio.Button value="expenses"><Icon className="custom-icon" type="credit-card" /></Radio.Button>
-          <div style={{minHeight:"60%", borderColor:"lightgray", borderStyle:"solid"}}>
+      <div style={{}}>
+        <Radio.Group size="large" onChange={changeComponent} defaultValue="chat" style={{}}>
+          <Radio.Button style={{width: "25%"}} value="chat"><Icon className="custom-icon" type="message"/></Radio.Button>
+          <Radio.Button style={{width: "25%"}} value="camera"><Icon className="custom-icon" type="camera" /></Radio.Button>
+          <Radio.Button style={{width: "25%"}} value="checklist"><Icon className="custom-icon" type="schedule" /></Radio.Button>
+          <Radio.Button style={{width: "25%"}} value="expenses"><Icon className="custom-icon" type="credit-card" /></Radio.Button>
+          <div style={{height:"33em", width:"24em", borderColor:"lightgray", borderStyle:"solid"}}>
               {this.state.componentSelected}
           </div>
         </Radio.Group>
