@@ -1,4 +1,4 @@
-import { addParticipantsMessage,setUserAttributes } from './SocketActions'
+import { addParticipantsMessage,setUserAttributes } from './Actions'
 
 export const getSocketEvents = (socket) => {
     socket.on('add user', (data) => {
@@ -10,7 +10,7 @@ export const getSocketEvents = (socket) => {
     });
 
     socket.on('user joined', (data) =>{
-        console.log("New user joined");
+        console.log("New user joined",data);
   
     });
 

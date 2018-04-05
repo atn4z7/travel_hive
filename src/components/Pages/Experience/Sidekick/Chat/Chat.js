@@ -1,10 +1,11 @@
-import {Avatar, Button} from  'antd'
+import {AutoComplete, Avatar, Button, Input} from  'antd'
 import {app} from '../../../../app.js' /* Contains dva app from antd which has state management components*/
 import React, {Component} from 'react'
 import { ChatFeed, Message } from 'react-chat-ui'
-import { connect } from './SocketConnect'
-import { getSocketEvents } from './SocketEvents'
-import { setUserAttributes } from './SocketActions'
+import { connect } from './Socket/Connect'
+import { getSocketEvents } from './Socket/Events'
+import { setUserAttributes, sendMessage } from './Socket/Actions'
+
 
  
 export class Chat extends Component {
@@ -12,6 +13,7 @@ export class Chat extends Component {
   constructor() {
     super();
     this.state = {
+      user: {},
       socket: null,
       connected: false,
       messages: [
@@ -28,15 +30,26 @@ export class Chat extends Component {
  
  
   render() {
-    const {username, profileImage} = [app._store.getState().user, app._store.getState().profileImage];    
-    const connectToSocket = () => {      
+    
+    const connectToSocket = () => { 
+      const user = app._store.getState().user;
+      console.log("User info from store", user);  
+      this.setState({user:user});     
       if(this.state.connected === true) return
       this.setState({socket: connect()}, () => {
         this.setState({connected: true});
         console.log("Client socket added");
         getSocketEvents(this.state.socket);
-        setUserAttributes(this.state.socket,username, profileImage) 
+        setUserAttributes(this.state.socket, this.state.user) 
       });       
+    }
+    const callSendMessage = (e) => {    
+      console.log("Enter key pressed",e);
+       const message = e.target.value;
+       sendMessage(this.state.socket, message); 
+       let messagesArr = this.state.messages;
+       messagesArr.push(new Message({id: 0, message: message}));
+       this.setState({messages: messagesArr});
     }
     
     return (<div>
@@ -60,6 +73,12 @@ export class Chat extends Component {
         }
       }
     />
+
+    <AutoComplete>
+      <Input onPressEnter = {callSendMessage}/>
+    </AutoComplete>
+
+    
 
     <Button onClick = {connectToSocket}/>      
     </div>

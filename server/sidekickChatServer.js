@@ -27,28 +27,29 @@ io.on('connection', (socket) => {
     /* Broadcast event to all clients */
     socket.broadcast.emit('new message', {
       username: socket.username,
-      profileImage: socket.profileImage,
+      //profileImage: socket.profileImage,
       message: data
     });
   });
 
-  socket.on('add user', (username, profileImage) => {
-    console.log("Server receives 'add user' message");
+  socket.on('add user', (data) => {
+    console.log("Server receives 'add user' message from " + data.username);
     //if(addedUser) return;
     
     /* Store added user's username in the socket session for this client */
-    socket.username = username;
-    socket.profileImage = profileImage;
+    socket.username = data.username;
+    socket.profileImage = data.profileImage;
     ++numUsers;
     addedUser = true;
     socket.emit('login', {
+      username: socket.username,
+      profileImage: socket.profileImage,
       numUsers: numUsers
     });
 
     /* Tell all connected clients that a new user has connected */
     socket.broadcast.emit('user joined', {
-      username: socket.username,
-      profileImage: socket.profileImage,
+      username: socket.username,      
       numUsers: numUsers
     });
 
