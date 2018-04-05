@@ -16,14 +16,7 @@ export class Chat extends Component {
       user: {},
       socket: null,
       connected: false,
-      messages: [
-        new Message({
-          id: 1,
-          message: "I'm the recipient! (The person you're talking to)",
-        }), // Gray bubble
-        new Message({ id: 0, message: "I'm you -- the blue bubble!" }),
-         
-      ],
+      messages: [],
       //...
     };
   }
@@ -31,6 +24,7 @@ export class Chat extends Component {
  
   render() {
     
+    const dadOfgetSocketEvents = () => getSocketEvents(this);
     const connectToSocket = () => { 
       const user = app._store.getState().user;
       console.log("User info from store", user);  
@@ -39,7 +33,7 @@ export class Chat extends Component {
       this.setState({socket: connect()}, () => {
         this.setState({connected: true});
         console.log("Client socket added");
-        getSocketEvents(this.state.socket);
+        dadOfgetSocketEvents()
         setUserAttributes(this.state.socket, this.state.user) 
       });       
     }
@@ -74,13 +68,14 @@ export class Chat extends Component {
       }
     />
 
-    <AutoComplete>
-      <Input onPressEnter = {callSendMessage}/>
-    </AutoComplete>
+    <div style={{display:"block", marginTop:"25rem"} }>
+      <AutoComplete>
+        <Input onPressEnter = {callSendMessage}/>
+      </AutoComplete>   
 
-    
+      <Button onClick = {connectToSocket}/>  
+    </div>
 
-    <Button onClick = {connectToSocket}/>      
     </div>
 
       
