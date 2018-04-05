@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const api = 'http://localhost:3001/api';
+const api = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001/api';
 
 const baseOptions = {
   headers: {

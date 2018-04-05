@@ -23,8 +23,10 @@ export class Chat extends Component {
     };
   }
   componentWillUnmount = () => {
-    disconnectUser(this.state.socket);
-    this.state.socket.disconnect();
+    if(this.state.socket){
+      disconnectUser(this.state.socket);
+      this.state.socket.disconnect();
+    }
   }
  
   render() {

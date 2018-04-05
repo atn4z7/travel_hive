@@ -14,7 +14,7 @@ class LoginForm extends React.Component {
         const { email, password } = values;
         loginUser(email, password).then(user => {
           if(user){
-            const firstname = user.user.split(" ")[0];
+            const firstname = user.user.trim().split(" ")[0];
             message.success("Welcome back, " + firstname);
             let base64image = undefined;           
             base64image = user.profileImage;    
