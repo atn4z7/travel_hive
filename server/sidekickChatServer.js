@@ -34,28 +34,26 @@ io.on('connection', (socket) => {
 
   socket.on('add user', (data) => {
     console.log("Server receives 'add user' message from " + data.username);
-    //if(addedUser) return;
+    if(addedUser) return;
     
     /* Store added user's username in the socket session for this client */
-    socket.username = data.username;
-    socket.profileImage = data.profileImage;
+    socket.userID = numUsers; /* Not currently used by view on client, maybe useful if we switch views */
+    socket.username = data.username;    
     ++numUsers;
     addedUser = true;
     socket.emit('login', {
-      username: socket.username,
-      profileImage: socket.profileImage,
+      userID: socket.userID,
+      username: socket.username,      
       numUsers: numUsers
     });
 
     /* Tell all connected clients that a new user has connected */
     socket.broadcast.emit('user joined', {
+      userID: socket.userID,
       username: socket.username,      
       numUsers: numUsers
     });
 
   });
-    
-
-
 
 }); /* Ends the connection object io.on above */

@@ -1,83 +1,88 @@
 import {AutoComplete, Avatar, Button, Input} from  'antd'
 import {app} from '../../../../app.js' /* Contains dva app from antd which has state management components*/
 import React, {Component} from 'react'
-import { ChatFeed, Message } from 'react-chat-ui'
+import { ChatBubble,ChatFeed, Message } from 'react-chat-ui'
 import { connect } from './Socket/Connect'
 import { getSocketEvents } from './Socket/Events'
 import { setUserAttributes, sendMessage } from './Socket/Actions'
 
-
- 
 export class Chat extends Component {
  
   constructor() {
     super();
     this.state = {
       user: {},
+      connectedUserNames: [],
       socket: null,
       connected: false,
-      messages: [],
+      messages: [],      
+      is_type:false,
+      numOnline: "",
+      infoMessage: "",
       //...
     };
   }
- 
+  componentWillUnmount = () => {
+    
+    this.state.socket.disconnect();
+  }
  
   render() {
     
     const dadOfgetSocketEvents = () => getSocketEvents(this);
     const connectToSocket = () => { 
-      const user = app._store.getState().user;
-      console.log("User info from store", user);  
+      const user = app._store.getState().user;      
       this.setState({user:user});     
       if(this.state.connected === true) return
       this.setState({socket: connect()}, () => {
         this.setState({connected: true});
         console.log("Client socket added");
         dadOfgetSocketEvents()
-        setUserAttributes(this.state.socket, this.state.user) 
+        setUserAttributes(this.state.socket, this.state.user, this.state.userID) 
       });       
     }
-    const callSendMessage = (e) => {    
-      console.log("Enter key pressed",e);
+    const callSendMessage = (e) => {      
+       console.log("From call event",this.state.user); 
        const message = e.target.value;
        sendMessage(this.state.socket, message); 
        let messagesArr = this.state.messages;
-       messagesArr.push(new Message({id: 0, message: message}));
+       messagesArr.push(new Message({id: 0, message: message }));
        this.setState({messages: messagesArr});
     }
     
-    return (<div>
+    return (
+    <div style={{minHeight: "300px"}}>
+      <div>users online: {this.state.connectedUserNames.join(",")}</div>
 
-      <ChatFeed
-      messages={this.state.messages} // Boolean: list of message objects
-      isTyping={this.state.is_typing} // Boolean: is the recipient typing
-      hasInputField={false} // Boolean: use our input, or use your own
-      showSenderName // show the name of the user who sent the message
-      bubblesCentered={false} //Boolean should the bubbles be centered in the feed?
-      // JSON: Custom bubble styles
-      bubbleStyles={
-        {
-          text: {
-            fontSize: 30
-          },
-          chatbubble: {
-            borderRadius: 70,
-            padding: 40
+      <ChatFeed                 
+        maxHeight="400px"
+        messages={this.state.messages} // Boolean: list of message objects
+        isTyping={this.state.is_typing} // Boolean: is the recipient typing
+        hasInputField={false} // Boolean: use our input, or use your own
+        showSenderName ={false} // show the name of the user who sent the message
+        bubblesCentered={true} //Boolean should the bubbles be centered in the feed?
+        // JSON: Custom bubble styles
+        bubbleStyles={
+          {
+            text: {
+              fontSize: 30
+            },
+            chatbubble: {
+              borderRadius: 70,
+              padding: 40
+            }
           }
         }
-      }
-    />
+      >
+      </ChatFeed>   
 
-    <div style={{display:"block", marginTop:"25rem"} }>
+    <div style={{ } }>
       <AutoComplete>
-        <Input onPressEnter = {callSendMessage}/>
-      </AutoComplete>   
-
-      <Button onClick = {connectToSocket}/>  
-    </div>
-
-    </div>
-
+        {/*this.state.infoMessage*/}
+        <Input onPressEnter = {callSendMessage} onFocus = {connectToSocket}/>
+      </AutoComplete>           
+    </div> 
+  </div>
       
 
     )}
