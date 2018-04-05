@@ -60,4 +60,16 @@ io.on('connection', (socket) => {
 
   });
 
+  socket.on('user left', (data) => {
+    /* Broadcast event to all clients */
+    numUsers--;
+    const index = usersOnline.indexOf(socket.username);
+    usersOnline.splice(index, 1);
+    socket.broadcast.emit('user left', {      
+      username: socket.username,
+      usersOnline:usersOnline
+      
+    });
+  });
+
 }); /* Ends the connection object io.on above */

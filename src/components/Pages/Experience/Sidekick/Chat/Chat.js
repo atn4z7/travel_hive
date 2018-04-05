@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 import { ChatBubble,ChatFeed, Message } from 'react-chat-ui'
 import { connect } from './Socket/Connect'
 import { getSocketEvents } from './Socket/Events'
-import { setUserAttributes, sendMessage } from './Socket/Actions'
+import { disconnectUser, setUserAttributes, sendMessage } from './Socket/Actions'
 
 export class Chat extends Component {
  
@@ -23,7 +23,7 @@ export class Chat extends Component {
     };
   }
   componentWillUnmount = () => {
-    
+    disconnectUser(this.state.socket);
     this.state.socket.disconnect();
   }
  
@@ -41,21 +41,22 @@ export class Chat extends Component {
         setUserAttributes(this.state.socket, this.state.user, this.state.userID) 
       });       
     }
-    const callSendMessage = (e) => {      
-       console.log("From call event",this.state.user); 
+    const callSendMessage = (e) => {             
        const message = e.target.value;
        sendMessage(this.state.socket, message); 
        let messagesArr = this.state.messages;
        messagesArr.push(new Message({id: 0, message: message }));
        this.setState({messages: messagesArr});
+       e.target.value = "";
     }
     
     return (
-    <div style={{minHeight: "300px", position: "relative"}}>
+    <div style={{minHeight: "300px",maxHeight:"300px", position: "relative"}}>
       <div>users online: {this.state.connectedUserNames.join(",")}</div>
 
       <ChatFeed                 
         maxHeight="400px"
+        minHeight="400px"
         messages={this.state.messages} // Boolean: list of message objects
         isTyping={this.state.is_typing} // Boolean: is the recipient typing
         hasInputField={false} // Boolean: use our input, or use your own
@@ -76,11 +77,8 @@ export class Chat extends Component {
       >
       </ChatFeed>   
 
-    <div style={{marginRight:"300px" } }>
-      <AutoComplete>
-        {/*this.state.infoMessage*/}
-        <Input style={{boxShadow: "inset 3px 3px 3px  grey",borderRadius: "15%",position:"absolute", top:"365px", minWidth: "300px"}} onPressEnter = {callSendMessage} onFocus = {connectToSocket}/>
-      </AutoComplete>           
+    <div style={{marginRight:"330px" } }>          
+        <Input style={{boxShadow: "inset 3px 3px 3px  grey",borderRadius: "15%",position:"absolute", top:"400px", minWidth: "300px"}} onPressEnter = {callSendMessage} onFocus = {connectToSocket}/>                 
     </div> 
   </div>
       

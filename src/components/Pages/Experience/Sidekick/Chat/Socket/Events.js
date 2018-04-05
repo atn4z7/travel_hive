@@ -20,8 +20,7 @@ export const getSocketEvents = (one) => {
             one.setState({messages: messagesArr});
     });
 
-    socket.on('user joined', (data) =>{
-        //console.log("New user joined",data);
+    socket.on('user joined', (data) =>{       
         let message = addParticipantsMessage(data);
         one.setState({numOnline: message});
         let messagesArr = messages;
@@ -38,8 +37,12 @@ export const getSocketEvents = (one) => {
       let messagesArr = messages;
       messagesArr.push(new Message({id: 100, message: data.username + " has left chat."}));
       one.setState({messages: messagesArr});   
+
+      /* connectedUserNames state update */       
+      one.setState({connectedUserNames: data.usersOnline});  
     });
 
+    /* This event triggers only for the user that just logged in by click the input text box*/  
     socket.on('login', (data) => {
         let message = addParticipantsMessage(data);
         one.setState({numOnline: message});
@@ -48,19 +51,8 @@ export const getSocketEvents = (one) => {
     });
 
     socket.on('disconnect', function () {
-      console.log("Disconnect happened!"); 
-    });
+      console.log("User disconnected!"); 
+    });    
     
-    socket.on('reconnect', function () {
-      
-      //if (username) {
-       // socket.emit('add user', username);
-      //}
-    });
-  
-    socket.on('reconnect_error', function () {
-      
-    }); 
-
 }
     

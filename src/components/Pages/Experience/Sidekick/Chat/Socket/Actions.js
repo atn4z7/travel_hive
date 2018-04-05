@@ -14,6 +14,10 @@ export const sendMessage = (socket,message) => {
   socket.emit("new message", message);
 }
 
+export const disconnectUser = (socket) => {
+  socket.emit("user left");
+}
+
 
 
 
