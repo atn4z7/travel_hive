@@ -17,6 +17,7 @@ http.listen(port, () => console.log('listening on port ' + port));
 /* chatroom */
 
 let numUsers = 0;
+let usersOnline = [];
 
 io.on('connection', (socket) => {
   let addedUser = false;
@@ -39,19 +40,22 @@ io.on('connection', (socket) => {
     /* Store added user's username in the socket session for this client */
     socket.userID = numUsers; /* Not currently used by view on client, maybe useful if we switch views */
     socket.username = data.username;    
+    usersOnline.push(data.username);
     ++numUsers;
     addedUser = true;
     socket.emit('login', {
       userID: socket.userID,
       username: socket.username,      
-      numUsers: numUsers
+      numUsers: numUsers,
+      usersOnline: usersOnline
     });
 
     /* Tell all connected clients that a new user has connected */
     socket.broadcast.emit('user joined', {
       userID: socket.userID,
       username: socket.username,      
-      numUsers: numUsers
+      numUsers: numUsers,
+      usersOnline: usersOnline
     });
 
   });

@@ -28,13 +28,9 @@ export const getSocketEvents = (one) => {
         messagesArr.push(new Message({id: 100, message: data.username + " has joined chat!"}));
         one.setState({messages: messagesArr});         
         
-        /* connectedUserNames state update */
-        let connectedUserNamesArr = one.state.connectedUserNames;
-        connectedUserNamesArr.push(data.username);
-
-          
-    });
-    
+        /* connectedUserNames state update */       
+        one.setState({connectedUserNames: data.usersOnline});          
+    });    
     
     socket.on('user left', (data) => {
       let message = addParticipantsMessage(data);
@@ -47,7 +43,8 @@ export const getSocketEvents = (one) => {
     socket.on('login', (data) => {
         let message = addParticipantsMessage(data);
         one.setState({numOnline: message});
-                
+        /* connectedUserNames state update */       
+        one.setState({connectedUserNames: data.usersOnline});                  
     });
 
     socket.on('disconnect', function () {

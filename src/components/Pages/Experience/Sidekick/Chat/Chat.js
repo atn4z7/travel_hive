@@ -51,7 +51,7 @@ export class Chat extends Component {
     }
     
     return (
-    <div style={{minHeight: "300px"}}>
+    <div style={{minHeight: "300px", position: "relative"}}>
       <div>users online: {this.state.connectedUserNames.join(",")}</div>
 
       <ChatFeed                 
@@ -76,10 +76,10 @@ export class Chat extends Component {
       >
       </ChatFeed>   
 
-    <div style={{ } }>
+    <div style={{marginRight:"300px" } }>
       <AutoComplete>
         {/*this.state.infoMessage*/}
-        <Input onPressEnter = {callSendMessage} onFocus = {connectToSocket}/>
+        <Input style={{boxShadow: "inset 3px 3px 3px  grey",borderRadius: "15%",position:"absolute", top:"365px", minWidth: "300px"}} onPressEnter = {callSendMessage} onFocus = {connectToSocket}/>
       </AutoComplete>           
     </div> 
   </div>
