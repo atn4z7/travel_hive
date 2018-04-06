@@ -1,38 +1,31 @@
 import React from 'react';
 
-import Plan from "./PlanCard"
+import Plan from "./Plan"
+import Itinerary from "./Itinerary"
 
-import { Card, Col, Form, Input, Icon, Button, Modal } from 'antd';
+import { Card, Col, Button } from 'antd';
 
-const { TextArea } = Input;
 const { Meta } = Card;
 
 class PlanCard extends React.Component {
-
   constructor() {
     super();
 
     this.state = {
-      visible: false
+      visible: true
     };
+    this.delete = this.delete.bind(this);
   }
 
-  showModal = () => {
+  delete = () => {
     this.setState({
-      visible: true,
+      visible: false
     });
+    this.props.remove(this.props.data);
   }
 
-  handleOk = (e) => {
-    this.setState({
-      visible: false,
-    });
-  }
-
-  handleCancel = (e) => {
-    this.setState({
-      visible: false,
-    });
+  hide = () => {
+    this.props.hideTrips(this.props.showTrips)
   }
 
   render() {
@@ -41,27 +34,18 @@ class PlanCard extends React.Component {
         <Col span={8}>
           <Card
             hoverable
-            onClick = {this.showModal}
+            onClick = {this.hide}
             style = {{ margin: '5px'}}
             title = {this.props.title}
-            cover = {<img src= {this.props.picture} height = '200px' />}
-          >
+            visible = {this.state.visible}
+            cover = {<img src= {this.props.picture} height = '200px' />} >
           <Meta
-            description = {this.props.description}
-          />
+            description = {this.props.description} />
           </Card>
+          <Button
+            onClick = {this.delete}
+            type="danger"> Delete Trip </Button>
         </Col>
-        <Modal
-          title= {this.props.title}
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel} >
-          <Button icon="plus"> Add Bookmark </Button>
-          <Button icon="calendar"> Calendar </Button>
-          <Form layout="vertical">
-            <TextArea placeholder = "Title" rows={4} />
-          </Form>
-        </Modal>
       </div>
     )
   }
