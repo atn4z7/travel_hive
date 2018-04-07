@@ -1,4 +1,3 @@
-import Expo from 'expo';
 import React from 'react';
 import { View, Image, Dimensions } from 'react-native';
 import { DrawerNavigator, NavigationActions, DrawerItems } from 'react-navigation';

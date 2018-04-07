@@ -1,6 +1,6 @@
 import React from 'react';
-import { TabNavigator, TabBarBottom } from 'react-navigation'; // Version can be specified in package.json
-import { Ionicons } from '@expo/vector-icons'; // Version can be specified in package.json
+import { TabNavigator, TabBarBottom } from 'react-navigation'; 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { InspirationHome } from '../Pages/Inspiration/InspirationHome';
 import { PlanningHome } from '../Pages/Planning/PlanningHome';
 import { Drawer } from './Drawer';
@@ -26,8 +26,6 @@ export const RootTab = TabNavigator (
   
           }
   
-          // You can return any component that you like here! We usually use an
-          // icon component from react-native-vector-icons
           return <Ionicons name={iconName} size={25} color={tintColor} />;
         },
         headerStyle: {
