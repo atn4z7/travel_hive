@@ -1,32 +1,26 @@
 
 # Travel Hive
-===================
 
-- - - -
+# set up database
+- [Migrations](https://github.com/sequelize/cli)
+- run `npm run db:migrate`
+  ## w/docker:
+    1) install docker
+    2) run `npm run db:create`
 
-# Steps to run: #
+  ## w/other:
+    - If using the default MySQL port set port to 3306. If using MAMP set port to 8889.
 
-create a copy of `/config/config.js.template` as `/config/config.js` and `/config/dbMigrationConfig.json.template` as `/config/dbMigrationConfig.json` with any env specific settings.
-
-Change database information config/config.js to match your database credentials.
-If using the default MySQL port set port to 3306.
-If using MAMP set port to 8889.
-
+# set up backend server:
 1. run `npm install`
-2. run `npm run db:create`
-3. run `npm run server`
-4. open another terminal/cmd
-5. ensure datbase is started and run `npm start` in second terminal/cmd
+2. run `npm run server`
 
+# set up frontend:
+1. run `npm install`
+2. run `npm start`
 
-
-[Migrations](https://github.com/sequelize/cli)
-run `npm run db:migrate`
-
-
-
-- localhost:3000/ will take you to the home page.
-
-- localhost:3000/api/version will fetch the version number from the express api.
+## Quick Links while running the project
+- [landing page](localhost:3000) : localhost:3000
+- [server api version](localhost:3000/api/version) : localhost:3000/api/version
 
 ![landing page](https://raw.githubusercontent.com/reggieroby/travel_hive/master/public/landing.png)
