@@ -20,7 +20,7 @@
 2. run `npm start`
 
 ## Quick Links while running the project
-- [landing page](localhost:3000) : localhost:3000
-- [server api version](localhost:3000/api/version) : localhost:3000/api/version
+- [landing page](http://localhost:3000) : localhost:3000
+- [server api version](http://localhost:3000/api/version) : localhost:3000/api/version
 
 ![landing page](https://raw.githubusercontent.com/reggieroby/travel_hive/master/public/landing.png)
