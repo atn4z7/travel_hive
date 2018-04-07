@@ -5,11 +5,12 @@ const env = process.env.node_env;
 
 const Sequelize = require('sequelize');
 let mysql = require('mysql');
+
+/* If Running in production must set env variable expected in ./config/config.js file */
 import {Config} from '../config/config'
 
-
 /* Database Connection Setup */
-const mysqlURL = process.env.MYSQL_URL;
+const mysqlURL = process.env.MYSQL_URL; /* connection string to mysql database in production environment */
 let mysqlConnection ="";
 if(env === "production" && mysqlURL){
   mysqlConnection = mysql.createConnection(mysqlURL);
