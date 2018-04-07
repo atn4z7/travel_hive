@@ -15,8 +15,8 @@ export const app = express();
 export const httpServer = require('http').createServer(app);
 
 /* 8080 Port is the default for Openshift deployment */
-const port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
-      ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+const port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || '3001',
+      ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || 'localhost';
 
 const bodyParser = require('body-parser');
 const session = require('express-session');
