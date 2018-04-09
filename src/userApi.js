@@ -179,4 +179,23 @@ export function getInspirations(){
       console.log(error);
     });
 }
+
+export function getStreetViewPhoto(args){  
+  console.log("Userapi google", args)
+  const googleApi = `https://maps.googleapis.com/maps/api/streetview?size=${args.width}x${args.height}&location=${args.lat}, ${args.lng}&fov=${args.fov}&heading=${args.heading}&pitch=${args.pitch}&key=${process.env.REACT_APP_GOOGLE_MAP_API}`
+  console.log("google string", googleApi);
+   return fetch(`${googleApi}`, {
+      
+  })
+    .then(response => {
+      console.log("Get google street view image", response);
+      if (response.ok) {
+        return response.blob();
+      }
+    })
+    .then(data => data ? data : null)
+    .catch(error => {
+      console.log(error);
+    }); 
+}
 /***************************************************************/
