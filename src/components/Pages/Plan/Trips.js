@@ -20,7 +20,6 @@ class Trips extends React.Component {
     this.addTrip = this.addTrip.bind(this);
     this.removeTrip = this.removeTrip.bind(this);
   }
-
   handleProp = (prop) => {
     return (e) => {
       this.setState({
@@ -34,10 +33,14 @@ class Trips extends React.Component {
       data: this.state.data.filter((x,i) => i != index)
     });
   }
-
   showModal = () => {
     this.setState({
       modalVisible: true
+    });
+  }
+  hideModal = () => {
+    this.setState({
+      modalVisible: false
     });
   }
 
