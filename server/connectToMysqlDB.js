@@ -5,7 +5,12 @@ import {Config} from '../config/config'
 // Database Connection Setup
 // must manually create database in mamp with name 'travelhive_user_db'
 
-var mysqlConnection = mysql.createConnection({user:Config.Database.user,password:Config.Database.password,port:Config.Database.options.port});
+var mysqlConnection = mysql.createConnection({
+  host: Config.Database.options.host,
+  user: Config.Database.user,
+  password: Config.Database.password,
+  port: Config.Database.options.port
+});
 
 export let connectToMysqlDB = async function(){
   return new Promise(function(resolve, reject) {

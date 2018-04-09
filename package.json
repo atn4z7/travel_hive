@@ -37,7 +37,7 @@
     "dock:frontend:build": "docker build -f Dockerfile.webfrontend -t travel-hive-web-frontend .",
     "dock:frontend:run":"docker run -p 49160:3000 -d travel-hive-web-frontend",
     "dock:restapi:build": "docker build -f Dockerfile.restapi -t travel-hive-rest-api .",
-    "dock:restapi:run":"docker run -p 49161:3001 -p 3306:3306 -d travel-hive-rest-api"
+    "dock:restapi:run":"docker run -p 3008:3001 -d travel-hive-rest-api"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
