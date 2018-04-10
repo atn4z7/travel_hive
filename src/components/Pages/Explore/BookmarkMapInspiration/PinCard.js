@@ -33,8 +33,7 @@ export class PinInput extends Component {
     <div className="pin-preview">
     {console.log("PinCard props",props)}
       <Card
-        style={{ maxWidth: "60%" }}
-       // cover={<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbOWg1ZkyFnRe_S1Zc_3PoghWjwgQIy5NP4514URf-dC1234RTyg" alt="" />}
+        style={{ maxWidth: "80%" }}       
        cover={<img src={props.imageSrc} alt="" />}
       >
         <Input

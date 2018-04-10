@@ -12,6 +12,9 @@ export class BookmarkMapInspiration extends React.Component {
       imageSrc: this.props.imageSrc,
       title: ""
     };
+    componentWillUnmount = () =>{
+      this.props.onToggleModal();
+    }
     showModal = () => {
       this.setState({
         visible: true

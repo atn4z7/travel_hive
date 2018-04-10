@@ -21,10 +21,9 @@ export const CustomMap = compose(
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `450px` }} />,
     mapElement: <div style={{ height: `100%` }} />,
-    center: { lat: 25.03, lng: 121.6 },    
-    //center: { lat: -18.766947, lng: 46.869106999999985},
+    center: { lat: 25.03, lng: 121.6 },        
     streetViewObject : {},
-    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbOWg1ZkyFnRe_S1Zc_3PoghWjwgQIy5NP4514URf-dC1234RTyg",
+    image:"",
   }),
   withStateHandlers(() => ({
     isOpen: false,
@@ -47,12 +46,14 @@ export const CustomMap = compose(
         markers: [],
         onMapMounted: ref => {
           refs.map = ref;
-          refs.streetView = refs.map.getStreetView();
-          const getStreetViewRef = () => {return refs.streetView};
-          refs.streetView.addListener('visible_changed', () => {
-            console.log("Streetview visibility changed",getStreetViewRef());
-            this.setState({streetViewObject: getStreetViewRef()})
-          })          
+          if(refs.map){
+            refs.streetView = refs.map.getStreetView();
+            const getStreetViewRef = () => {return refs.streetView};
+            refs.streetView.addListener('visible_changed', () => {
+              console.log("Streetview visibility changed",getStreetViewRef());
+              this.setState({streetViewObject: getStreetViewRef()})
+            })  
+          }        
         },
         onBoundsChanged: () => {
           this.setState({
@@ -91,20 +92,19 @@ export const CustomMap = compose(
           const streetView = this.state.streetViewObject;
           
           let args = {
-            width: 400,
-            height: 400,
+            width: 400, /* This is a fixed value for now, but could be a user input */
+            height: 400, /* This is a fixed value for now, but could be a user input */
             lat: streetView.position.lat(),
             lng: streetView.position.lng(),
-            fov: 90,
+            fov: 90, 
             heading: streetView.pov.heading,
             pitch: streetView.pov.pitch
           }
 
-          const googleStreetviewImage = `https://maps.googleapis.com/maps/api/streetview?size=${args.width}x${args.height}&location=${args.lat}, ${args.lng}&fov=${args.fov}&heading=${args.heading}&pitch=${args.pitch}&key=${process.env.REACT_APP_GOOGLE_MAP_API}`
-          
+          const googleStreetviewImage = `https://maps.googleapis.com/maps/api/streetview?size=${args.width}x${args.height}&location=${args.lat}, ${args.lng}&fov=${args.fov}&heading=${args.heading}&pitch=${args.pitch}&key=${process.env.REACT_APP_GOOGLE_MAP_API}`        
           
           this.setState({image: googleStreetviewImage});
-          
+                    
         },
       })
     },
@@ -149,12 +149,21 @@ export const CustomMap = compose(
         
       )}
     </GoogleMap>
+
     <Button       
-      onClick = {() => {console.log("Hello",props); props.onStreetViewTakePicture();props.onToggleModal()}}
+      style = {{minHeight: 60}}
+      onClick = {() => {
+        props.onStreetViewTakePicture()
+        props.onToggleModal()}
+      }
     >
-      <Icon style={{fontSize: 40 }} type="camera" />
+      <Icon style={{fontSize: 40 }} type="camera" /> 
     </Button>
-    {props.isModalOpen && <BookmarkMapInspiration visible = {true} imageSrc = {props.image}/>}    
+
+    {props.isModalOpen && <BookmarkMapInspiration 
+                            onToggleModal = {props.onToggleModal}
+                            visible = {true} 
+                            imageSrc = {props.image}/>}    
     
   </div>
 );
