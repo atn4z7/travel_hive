@@ -41,9 +41,9 @@ export class BookmarkInspiration extends React.Component {
           image: this.state.selectedImageAttrs.src
         }
       }),
-        addInspiration({
+        addInspiration({           
           image: this.state.selectedImageAttrs.src,
-          description: "Test run"
+          description: this.state.title
         }).then(response => {
           if (response) {
             message.success("Inspiration added!");
