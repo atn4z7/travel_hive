@@ -7,9 +7,7 @@ export class PinInput extends Component {
     constructor(props) {
       super(props);
   
-      this.state = {
-        
-        // title: '',
+      this.state = {         
         loading: false
       };  
   
@@ -38,9 +36,8 @@ export class PinInput extends Component {
       >
         <Input
           type="text"
-          //value={title}
-         // onChange={handleChange}
-          placeholder="Add Title..."
+          value={props.title}
+          onChange={props.handleChange}          
         />
       </Card>
     </div>

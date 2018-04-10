@@ -8,9 +8,9 @@ export class BookmarkMapInspiration extends React.Component {
     state = {
       loading: false,
       visible: this.props.visible,     
-      selectedImageAttrs: null,
+      //selectedImageAttrs: null,
       imageSrc: this.props.imageSrc,
-      title: ""
+      title: this.props.imageDescription
     };
     componentWillUnmount = () =>{
       this.props.onToggleModal();
@@ -21,16 +21,16 @@ export class BookmarkMapInspiration extends React.Component {
       });
     };
     handleOk = () => {
-      this.props.appState.dispatch({
+      /*this.props.appState.dispatch({
         type: "inspiration/addInspiration",
         payload: {
           title: this.state.title,
-          image: this.state.selectedImageAttrs.src
+          image: this.state.imageSrc
         }
-      }),
+      }), */
         addInspiration({
-          image: this.state.selectedImageAttrs.src,
-          description: "Test run"
+          image: this.state.imageSrc,
+          description: this.state.title
         }).then(response => {
           if (response) {
             message.success("Inspiration added!");
@@ -67,12 +67,7 @@ export class BookmarkMapInspiration extends React.Component {
       const { visible, loading } = this.state;
   
       return (
-        <div>
-          {/*
-          <Button icon="plus" onClick={this.showModal}>
-            Bookmark Your Inspiration
-          </Button>
-          */}
+        <div>         
           <Modal
             style={{ top: 20 }}
             visible={visible}
@@ -94,7 +89,7 @@ export class BookmarkMapInspiration extends React.Component {
          
             <PinCard             
              // handleChange={this.handleTitleChange}
-             // title={this.state.title}
+              title={this.state.title}
               imageSrc = {this.props.imageSrc}
             />
            

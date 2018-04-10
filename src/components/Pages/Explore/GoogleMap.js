@@ -21,9 +21,10 @@ export const CustomMap = compose(
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `450px` }} />,
     mapElement: <div style={{ height: `100%` }} />,
-    center: { lat: 25.03, lng: 121.6 },        
-    streetViewObject : {},
-    image:"",
+    center: { lat: 25.03, lng: 121.6 }, /* This is the home coordinates where the map will start once mounted */       
+    streetViewObject : {}, /* This object contains all meta data about the streetview place*/
+    image:"", /* Street view picture */
+    imageDescription:"", /* Description of street view picture */
   }),
   withStateHandlers(() => ({
     isOpen: false,
@@ -103,7 +104,7 @@ export const CustomMap = compose(
 
           const googleStreetviewImage = `https://maps.googleapis.com/maps/api/streetview?size=${args.width}x${args.height}&location=${args.lat}, ${args.lng}&fov=${args.fov}&heading=${args.heading}&pitch=${args.pitch}&key=${process.env.REACT_APP_GOOGLE_MAP_API}`        
           
-          this.setState({image: googleStreetviewImage});
+          this.setState({image: googleStreetviewImage, imageDescription: streetView.location.description});
                     
         },
       })
@@ -163,8 +164,10 @@ export const CustomMap = compose(
     {props.isModalOpen && <BookmarkMapInspiration 
                             onToggleModal = {props.onToggleModal}
                             visible = {true} 
-                            imageSrc = {props.image}/>}    
-    
+                            imageSrc = {props.image}
+                            imageDescription = {props.imageDescription}   
+                          /> 
+    }
   </div>
 );
 
