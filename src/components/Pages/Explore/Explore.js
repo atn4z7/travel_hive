@@ -40,6 +40,6 @@ export const Explore = () => (
     <div>Explore</div>
     <CountrySearch /> 
     <Divider />   
-    <CustomMap /> 
+    <CustomMap />     
 </div>
 );

@@ -1,6 +1,7 @@
 import React from "react"
 import { Button, Icon } from "antd" 
 import { getStreetViewPhoto } from "../../../userApi"
+import { BookmarkMapInspiration } from "./BookmarkMapInspiration/BookmarkMapInspiration"
 
 const _ = require("lodash");
 const { compose, withProps, withStateHandlers, lifecycle } = require("recompose");
@@ -26,9 +27,13 @@ export const CustomMap = compose(
   }),
   withStateHandlers(() => ({
     isOpen: false,
+    isModalOpen: false,
   }), {
     onToggleOpen: ({ isOpen }) => () => ({
       isOpen: !isOpen,
+    }),
+    onToggleModal: ({ isModalOpen }) => () => ({
+      isModalOpen: !isModalOpen,
     })
   }),
   lifecycle({
@@ -137,13 +142,16 @@ export const CustomMap = compose(
       </SearchBox>        
       {props.markers.map((marker, index) =>
         <Marker key={index} position={marker.position} />
+        
       )}
     </GoogleMap>
     <Button       
-      onClick = {() => {console.log("Hello",props); props.onStreetViewTakePicture();}}
+      onClick = {() => {console.log("Hello",props); props.onStreetViewTakePicture();props.onToggleModal()}}
     >
       <Icon style={{fontSize: 40 }} type="camera" />
-    </Button>    
+    </Button>
+    {props.isModalOpen && <BookmarkMapInspiration visible = {true}/>}    
+    
   </div>
 );
 
