@@ -2,47 +2,26 @@
 import React from 'react';
 import {Button,message,Modal} from 'antd';
 import {PinCard, PinInput} from './PinCard';
-import {addInspiration,getBase64ImgFromUrl} from '../../../userApi';
+import {addInspiration,getBase64ImgFromUrl} from '../../../../userApi';
 
-const ImageSelector = ({ imageAttrs, selectImage }) => (
-    <div>
-      <h1>Select An Image</h1>
-      {imageAttrs.map((imageAttrs, index) => (
-        <img
-          key={index}
-          onClick={selectImage.bind(this, imageAttrs.src)}
-          src={imageAttrs.src}
-          alt={imageAttrs.alt}
-          style={{ maxWidth: "100px" }}
-        />
-      ))}
-    </div>
-  );
-
-export class BookmarkInspiration extends React.Component {
+export class BookmarkMapInspiration extends React.Component {
     state = {
       loading: false,
-      visible: false,
-      imageChosen: false,
-      selectedImageAttrs: null,
-      imageAttrs: [],
-      title: ""
+      visible: this.props.visible,    
+      imageSrc: this.props.imageSrc,
+      title: this.props.imageDescription
     };
+    componentWillUnmount = () =>{
+      this.props.onToggleModal();
+    }
     showModal = () => {
       this.setState({
         visible: true
       });
     };
-    handleOk = () => {
-      this.props.appState.dispatch({
-        type: "inspiration/addInspiration",
-        payload: {
-          title: this.state.title,
-          image: this.state.selectedImageAttrs.src
-        }
-      }),
-        addInspiration({           
-          image: this.state.selectedImageAttrs.src,
+    handleOk = () => {      
+        addInspiration({
+          image: this.state.imageSrc,
           description: this.state.title
         }).then(response => {
           if (response) {
@@ -80,10 +59,7 @@ export class BookmarkInspiration extends React.Component {
       const { visible, loading } = this.state;
   
       return (
-        <div>
-          <Button icon="plus" onClick={this.showModal}>
-            Bookmark Your Inspiration
-          </Button>
+        <div>         
           <Modal
             style={{ top: 20 }}
             visible={visible}
@@ -101,20 +77,15 @@ export class BookmarkInspiration extends React.Component {
               </Button>
             ]}
           >
-            <PinInput updateImages={this.updateImages} />
-  
-            {this.state.imageChosen ? (
-              <PinCard
-                selectedImageAttrs={this.state.selectedImageAttrs}
-                handleChange={this.handleTitleChange}
-                title={this.state.title}
-              />
-            ) : (
-              <ImageSelector
-                selectImage={this.selectImage}
-                imageAttrs={this.state.imageAttrs}
-              />
-            )}
+            <PinInput updateImages={this.updateImages} />  
+         
+            <PinCard             
+              handleChange={this.handleTitleChange}
+              title={this.state.title}
+              imageSrc = {this.props.imageSrc}
+            />
+           
+            
           </Modal>
         </div>
       );

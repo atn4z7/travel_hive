@@ -12,20 +12,21 @@ export class PinInput extends Component {
         // title: '',
         loading: false
       };
-  
+      this.handleOnEnter = this.handleOnEnter.bind(this);
       this.handleUrlChange = this.handleUrlChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
     }   
-  
-    handleUrlChange(event) {
-      this.setState({
-        url: event.target.value,
-        loading: true
-      });
+    handleOnEnter(event){
+      this.setState({loading: true});
       getPictures(event.target.value).then(imageAttrs => {
         this.props.updateImages(imageAttrs);
         this.setState({ loading: false });
       });
+    }  
+    handleUrlChange(event) {      
+      this.setState({
+        url: event.target.value,       
+      });     
     }
   
     handleSubmit(event) {
@@ -38,6 +39,7 @@ export class PinInput extends Component {
           <Input
             placeholder="Paste URL"
             value={this.state.url}
+            onPressEnter={this.handleOnEnter}
             onChange={this.handleUrlChange}
             style={{ maxWidth: "80%" }}
           />
@@ -55,7 +57,7 @@ export class PinInput extends Component {
       >
         <Input
           type="text"
-          value={title}
+          value={title}         
           onChange={handleChange}
           placeholder="Add Title..."
         />

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { app } from './components/app';
+import { saveState } from './models/localStorage';
 
 const api = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001/api';
 
@@ -165,13 +167,22 @@ export function addInspiration(inspiration) {
 /***************************************************************/
 
 /************* Get Inspirations ********************************/
+const onLogOut = () => {    
+  app._store.dispatch({ type: "user/logOutUser" }); // alternate way to connect to the app store/state dispatcher
+  saveState(undefined);  
+};
+
 export function getInspirations(){
   return fetch(`${api}/inspiration`, {
     ...baseOptions,   
   })
     .then(response => {
+      console.log("Get inspiration response", response);
       if (response.ok) {
         return response.json();
+      } else if (response.status === 401){
+        onLogOut();
+        
       }
     })
     .then(data => data ? data : null)
@@ -179,4 +190,3 @@ export function getInspirations(){
       console.log(error);
     });
 }
-/***************************************************************/
