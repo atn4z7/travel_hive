@@ -1,5 +1,5 @@
 {
-    "presets":["env","stage-0"],
+    "presets":["env","stage-0","babel-polyfill"],
     "plugins": [
     ["import", { "libraryName": "antd-mobile", "style": "css" }] 
   ]
