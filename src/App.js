@@ -43,11 +43,12 @@ const DefaultLayout = ({ children }) => (
 export const App = connect(({ user, inspiration }) => ({
   user,
   inspiration
-}))(function(props) {
+}))(function(props) {  
   return (
     <Router>
       <DefaultLayout>
         <div>
+          <Route exact path="/" component={InspirationPage} />
           <Route path="/join" component={WrappedRegistrationForm} />
           <Route path="/login" component={WrappedLoginForm} />
           <Route

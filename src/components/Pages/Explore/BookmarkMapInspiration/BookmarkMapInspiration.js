@@ -7,8 +7,7 @@ import {addInspiration,getBase64ImgFromUrl} from '../../../../userApi';
 export class BookmarkMapInspiration extends React.Component {
     state = {
       loading: false,
-      visible: this.props.visible,     
-      //selectedImageAttrs: null,
+      visible: this.props.visible,    
       imageSrc: this.props.imageSrc,
       title: this.props.imageDescription
     };
@@ -20,14 +19,7 @@ export class BookmarkMapInspiration extends React.Component {
         visible: true
       });
     };
-    handleOk = () => {
-      /*this.props.appState.dispatch({
-        type: "inspiration/addInspiration",
-        payload: {
-          title: this.state.title,
-          image: this.state.imageSrc
-        }
-      }), */
+    handleOk = () => {      
         addInspiration({
           image: this.state.imageSrc,
           description: this.state.title
@@ -88,7 +80,7 @@ export class BookmarkMapInspiration extends React.Component {
             <PinInput updateImages={this.updateImages} />  
          
             <PinCard             
-             // handleChange={this.handleTitleChange}
+              handleChange={this.handleTitleChange}
               title={this.state.title}
               imageSrc = {this.props.imageSrc}
             />
