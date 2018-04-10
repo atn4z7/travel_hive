@@ -24,6 +24,7 @@ export const CustomMap = compose(
     center: { lat: 25.03, lng: 121.6 },    
     //center: { lat: -18.766947, lng: 46.869106999999985},
     streetViewObject : {},
+    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbOWg1ZkyFnRe_S1Zc_3PoghWjwgQIy5NP4514URf-dC1234RTyg",
   }),
   withStateHandlers(() => ({
     isOpen: false,
@@ -98,9 +99,12 @@ export const CustomMap = compose(
             heading: streetView.pov.heading,
             pitch: streetView.pov.pitch
           }
-          getStreetViewPhoto(args).then((photo) => {
-            console.log("Streetview photo taken", photo);
-          })
+
+          const googleStreetviewImage = `https://maps.googleapis.com/maps/api/streetview?size=${args.width}x${args.height}&location=${args.lat}, ${args.lng}&fov=${args.fov}&heading=${args.heading}&pitch=${args.pitch}&key=${process.env.REACT_APP_GOOGLE_MAP_API}`
+          
+          
+          this.setState({image: googleStreetviewImage});
+          
         },
       })
     },
@@ -150,7 +154,7 @@ export const CustomMap = compose(
     >
       <Icon style={{fontSize: 40 }} type="camera" />
     </Button>
-    {props.isModalOpen && <BookmarkMapInspiration visible = {true}/>}    
+    {props.isModalOpen && <BookmarkMapInspiration visible = {true} imageSrc = {props.image}/>}    
     
   </div>
 );
