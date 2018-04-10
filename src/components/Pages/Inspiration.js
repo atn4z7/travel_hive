@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Card, Button } from 'antd';
+import { Col,Row,Form, Input, Card, Button } from 'antd';
 import { getInspirations } from '../../userApi'
 
 const { Meta } = Card;
@@ -60,7 +60,6 @@ const PinCard = ({image, description}) => (
   </div>
 );
 
-
 export class InspirationPage extends Component {
   constructor(props) {
     super(props);
@@ -72,24 +71,48 @@ export class InspirationPage extends Component {
   componentDidMount(){
     getInspirations().then((inspirationsObject) => {
       if(!inspirationsObject) return
-      this.setState({ inspirations: inspirationsObject.inspirations});                  
+      this.setState({ inspirations: inspirationsObject.inspirations});    
       
-    })
-    
-  }
-
+    })    
+  }  
+  
   render(){
+    
+      let Layout = [];
+      for(let i = 0; i < this.state.inspirations.length; i += 4){        
+        var tmp = this.state.inspirations.slice(i,i+4).map((inspiration) => {         
+                        
+          return(    
+             <Col span={6} key={inspiration.id + i}>
+              <PinCard 
+                key={inspiration.id} 
+                image = {inspiration.image }
+                description = {inspiration.description}
+              />
+             </Col>          
+          );         
+          
+        })
+        Layout.push(<Row key={i+100}>{tmp}</Row>);
+  
+      }
+      
+    return Layout;      
+    
     return(
       <div>
-        <PinInput />
-        <PinCard />
-        {this.state.inspirations.map((inspiration) => {        
-          return <PinCard 
-                    key={inspiration.id} 
-                    image = {inspiration.image }
-                    description = {inspiration.description}
-                 />;
-        })}
+        <Row>
+         <Col> 
+          <PinInput />
+         </Col>
+        </Row>
+
+        <Row>
+          <Col>
+            <PinCard />
+          </Col>
+        </Row>
+        {Layout}   
         
       </div>
     )}
